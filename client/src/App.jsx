@@ -50,7 +50,7 @@ function App() {
   return (
   <div className="min-h-screen bg-gray-100 p-8">
     <h1 className="mb-8 text-center text-4xl font-bold text-blue-600">
-      Employee Director
+      Employee Directo
     </h1>
 
     <EmployeeForm />
