@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Rahul Sharma",
+    "role": "Frontend Dev",
+    "department": "IT"
+  },
+  {
+    "id": 2,
+    "name": "Priya Singh",
+    "role": "HR Manager",
+    "department": "HR"
+  },
+  {
+    "id": 3,
+    "name": "Amit Kumar",
+    "role": "Backend Developer",
+    "department": "IT"
+  },
+  {
+    "id": 4,
+    "name": "Satyam Haldkar",
+    "role": "Full stack dev",
+    "department": "IT"
+  }
+]

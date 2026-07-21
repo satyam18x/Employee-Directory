@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
+const employeeRoutes = require("./routes/EmployeeRoutes");
+
 const app = express();
 const PORT = 5000;
 
@@ -9,9 +11,12 @@ app.use(cors());
 app.use(express.json());
 
 // Test Route
-app.get("/", (req, res) => {
-  res.send("Employee API is running...");
+app.get("/", (request, response) => {
+  response.send("Employee API is running...");
 });
+
+// Employee Routes
+app.use("/employees", employeeRoutes);
 
 // Start Server
 app.listen(PORT, () => {

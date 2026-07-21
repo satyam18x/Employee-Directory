@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Displays a form for adding a new employee.
  *
  * @returns {JSX.Element}
  */
-function EmployeeForm() {
+function EmployeeForm({
+    handleEmployeeSubmit,
+    selectedEmployee,
+}) {
   const [employeeDetails, setEmployeeDetails] = useState({
     name: "",
     role: "",
@@ -31,27 +34,39 @@ function EmployeeForm() {
    *
    * @param {Object} event - Form submit event.
    */
-  function handleEmployeeSubmit(event) {
-    event.preventDefault();
-
-    console.log(employeeDetails);
-
-    setEmployeeDetails({
-      name: "",
-      role: "",
-      department: "",
-    });
+ /**
+ * Handles form submission.
+ *
+ * @param {Object} event
+ */
+useEffect(() => {
+  if (selectedEmployee) {
+    setEmployeeDetails(selectedEmployee);
   }
+}, [selectedEmployee]);
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+
+  handleEmployeeSubmit(employeeDetails);
+
+  setEmployeeDetails({
+    name: "",
+    role: "",
+    department: "",
+  });
+}
 
   return (
     <form
-      onSubmit={handleEmployeeSubmit}
+      onSubmit={handleFormSubmit}
       className="mb-8 rounded-lg bg-white p-6 shadow-md"
     >
-      <h2 className="mb-4 text-2xl font-semibold">
-        Add Employee
-      </h2>
-
+      <h2>
+  {selectedEmployee
+    ? "Update Employee"
+    : "Add Employee"}
+</h2>
       <div className="grid gap-4 md:grid-cols-3">
         <input
           type="text"
@@ -88,7 +103,9 @@ function EmployeeForm() {
         type="submit"
         className="mt-5 rounded bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
       >
-        Add Employee
+       {selectedEmployee
+    ? "Update Employee"
+    : "Add Employee"}
       </button>
     </form>
   );

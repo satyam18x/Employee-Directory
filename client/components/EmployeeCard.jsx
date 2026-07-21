@@ -5,7 +5,10 @@
  * @param {Object} props.employee - Employee information.
  * @returns {JSX.Element}
  */
-function EmployeeCard({ employee }) {
+function EmployeeCard({
+  employee,
+  handleEmployeeEdit,
+}) {
   return (
     <div className="bg-white shadow-md rounded-lg p-5 border border-gray-200 hover:shadow-lg transition">
       <h2 className="text-xl font-semibold text-gray-800">
@@ -22,10 +25,11 @@ function EmployeeCard({ employee }) {
       </p>
 
       <button
-        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
-      >
-        Edit
-      </button>
+  onClick={() => handleEmployeeEdit(employee)}
+  className="mt-4 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+>
+  Edit
+</button>
     </div>
   );
 }

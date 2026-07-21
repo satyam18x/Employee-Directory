@@ -7,14 +7,18 @@ import EmployeeCard from "./EmployeeCard";
  * @param {Array} props.employeeList - List of employee objects.
  * @returns {JSX.Element}
  */
-function EmployeeList({ employeeList }) {
+function EmployeeList({
+  employeeList,
+  handleEmployeeEdit,
+}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {employeeList.map((employee) => (
-        <EmployeeCard
-          key={employee.id}
-          employee={employee}
-        />
+       <EmployeeCard
+    key={employee.id}
+    employee={employee}
+    handleEmployeeEdit={handleEmployeeEdit}
+/>
       ))}
     </div>
   );
