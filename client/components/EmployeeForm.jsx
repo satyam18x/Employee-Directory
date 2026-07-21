@@ -6,14 +6,25 @@ import { useEffect, useState } from "react";
  * @returns {JSX.Element}
  */
 function EmployeeForm({
-    handleEmployeeSubmit,
-    selectedEmployee,
+  handleEmployeeSubmit,
+  selectedEmployee,
+  handleCancel,
 }) {
   const [employeeDetails, setEmployeeDetails] = useState({
     name: "",
     role: "",
     department: "",
   });
+  /**
+   * Selects an employee for editing.
+   *
+   * @param {Object} employee
+   */
+  function handleEmployeeEdit(employee) {
+    setSelectedEmployee(employee);
+
+    setShowEmployeeForm(true);
+  }
 
   /**
    * Updates the employee form fields.
@@ -34,23 +45,23 @@ function EmployeeForm({
    *
    * @param {Object} event - Form submit event.
    */
-useEffect(() => {
-  if (selectedEmployee) {
-    setEmployeeDetails(selectedEmployee);
+  useEffect(() => {
+    if (selectedEmployee) {
+      setEmployeeDetails(selectedEmployee);
+    }
+  }, [selectedEmployee]);
+
+  function handleFormSubmit(event) {
+    event.preventDefault();
+
+    handleEmployeeSubmit(employeeDetails);
+
+    setEmployeeDetails({
+      name: "",
+      role: "",
+      department: "",
+    });
   }
-}, [selectedEmployee]);
-
-function handleFormSubmit(event) {
-  event.preventDefault();
-
-  handleEmployeeSubmit(employeeDetails);
-
-  setEmployeeDetails({
-    name: "",
-    role: "",
-    department: "",
-  });
-}
 
   return (
     <form
@@ -58,10 +69,10 @@ function handleFormSubmit(event) {
       className="mb-8 rounded-lg bg-white p-6 shadow-md"
     >
       <h2>
-  {selectedEmployee
-    ? "Update Employee"
-    : "Add Employee"}
-</h2>
+        {selectedEmployee
+          ? "Update Employee"
+          : "Add Employee"}
+      </h2>
       <div className="grid gap-4 md:grid-cols-3">
         <input
           type="text"
@@ -93,15 +104,24 @@ function handleFormSubmit(event) {
           required
         />
       </div>
+      <div className="mt-6 flex gap-4">
+        <button
+          type="submit"
+          className="rounded-lg bg-blue-700 px-6 py-3 font-medium text-white transition hover:bg-emerald-700"
+        >
+          {selectedEmployee
+            ? "Update Employee"
+            : "Add Employee"}
+        </button>
 
-      <button
-        type="submit"
-        className="mt-5 rounded bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
-      >
-       {selectedEmployee
-    ? "Update Employee"
-    : "Add Employee"}
-      </button>
+        <button
+          type="button"
+          onClick={handleCancel}
+          className="rounded-lg border border-gray-300 px-6 py-3 font-medium text-gray-700 transition hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }

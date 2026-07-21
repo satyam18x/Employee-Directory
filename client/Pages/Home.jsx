@@ -18,6 +18,7 @@ function Home() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [employeeList, setEmployeeList] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showEmployeeForm, setShowEmployeeForm] = useState(false);
 
   /**
    * Updates the search keyword.
@@ -47,6 +48,9 @@ function Home() {
       }
 
       loadEmployees();
+
+      setSelectedEmployee(null);
+      setShowEmployeeForm(false);
     } catch (error) {
       console.error(error);
     }
@@ -68,12 +72,22 @@ function Home() {
   }, []);
 
   /**
-   * Selects an employee for editing.
-   *
-   * @param {Object} employee
-   */
+  * Selects an employee for editing.
+  *
+  * @param {Object} employee
+  */
   function handleEmployeeEdit(employee) {
     setSelectedEmployee(employee);
+
+    setShowEmployeeForm(true);
+  }
+  /**
+   * Closes the employee form.
+   */
+  function handleCancel() {
+    setSelectedEmployee(null);
+
+    setShowEmployeeForm(false);
   }
   async function handleEmployeeDelete(employeeId) {
     const isConfirmed = window.confirm(
@@ -99,31 +113,69 @@ function Home() {
       console.error(error);
     }
   }
+  /**
+ * Displays the employee form.
+ */
+  function handleOpenForm() {
+    setSelectedEmployee(null);
+
+    setShowEmployeeForm(true);
+  }
 
   const filteredEmployeeList = employeeList.filter((employee) =>
     employee.name.toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="mb-8 text-center text-4xl font-bold text-blue-600">
-        Employee Directory
-      </h1>
+    <div className="min-h-screen bg-gray-100">
+      <div className="mx-auto max-w-6xl p-8">
 
-      <EmployeeForm
-        handleEmployeeSubmit={handleEmployeeSubmit}
-        selectedEmployee={selectedEmployee}
-      />
+        {/* Heading */}
 
-      <SearchBar
-        searchKeyword={searchKeyword}
-        handleSearchChange={handleSearchChange}
-      />
+        <h1 className="mb-8 text-center text-4xl font-bold text-black">
+          Employee Directory
+        </h1>
+
+        {/* Search + Button */}
+
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+          <div className="w-full md:flex-1">
+            <SearchBar
+              searchKeyword={searchKeyword}
+              handleSearchChange={handleSearchChange}
+            />
+          </div>
+
+          <button
+            onClick={handleOpenForm}
+            className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700 md:ml-4 md:w-auto"
+          >
+            Add Employee
+          </button>
+
+        </div>
+
+      </div>
+
+      {/* Form */}
+
+      {showEmployeeForm && (
+        <EmployeeForm
+          handleEmployeeSubmit={handleEmployeeSubmit}
+          selectedEmployee={selectedEmployee}
+          handleCancel={handleCancel}
+        />
+      )}
+
+      {/* Cards */}
+
       <EmployeeList
         employeeList={filteredEmployeeList}
         handleEmployeeEdit={handleEmployeeEdit}
         handleEmployeeDelete={handleEmployeeDelete}
       />
+
     </div>
   );
 }

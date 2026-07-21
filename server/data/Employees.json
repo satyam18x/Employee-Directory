@@ -1,11 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Aman Sharma",
-    "role": "Full stack developer",
-    "department": "IT"
-  },
-  {
     "id": 2,
     "name": "Mohit Patel",
     "role": "Backend Developer",
@@ -22,5 +16,17 @@
     "name": "Suraj Mishra",
     "role": "HR Manager",
     "department": "HR"
+  },
+  {
+    "id": 4,
+    "name": "Vedant Tiwari",
+    "role": "Frontend Developer",
+    "department": "IT"
+  },
+  {
+    "id": 5,
+    "name": "Mav",
+    "role": "Full stack developer",
+    "department": "IT"
   }
 ]

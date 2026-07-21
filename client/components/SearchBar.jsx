@@ -8,13 +8,13 @@
  */
 function SearchBar({ searchKeyword, handleSearchChange }) {
   return (
-    <div className="mb-8">
+    <div>
       <input
         type="text"
         placeholder="Search employees by name..."
         value={searchKeyword}
         onChange={handleSearchChange}
-        className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:outline-none"
+        className="h-14 w-full rounded-lg border border-black px-4 shadow-sm focus:border-blue-500 focus:outline-none"
       />
     </div>
   );
