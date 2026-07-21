@@ -33,12 +33,6 @@ function writeEmployees(employeeList) {
  * @param {Object} request - Express request object.
  * @param {Object} response - Express response object.
  */
-/**
- * Returns all employees.
- *
- * @param {Object} request
- * @param {Object} response
- */
 function getEmployees(request, response) {
   const employeeList = readEmployees();
 
@@ -50,12 +44,6 @@ function getEmployees(request, response) {
  *
  * @param {Object} request - Express request object.
  * @param {Object} response - Express response object.
- */
-/**
- * Adds a new employee.
- *
- * @param {Object} request
- * @param {Object} response
  */
 function addEmployee(request, response) {
   const employeeList = readEmployees();
@@ -78,12 +66,6 @@ function addEmployee(request, response) {
  *
  * @param {Object} request - Express request object.
  * @param {Object} response - Express response object.
- */
-/**
- * Updates an existing employee.
- *
- * @param {Object} request
- * @param {Object} response
  */
 function updateEmployee(request, response) {
   const employeeList = readEmployees();
@@ -109,9 +91,37 @@ function updateEmployee(request, response) {
 
   response.json(employeeList[employeeIndex]);
 }
+/**
+ * Deletes an employee.
+ *
+ * @param {Object} request
+ * @param {Object} response
+ */
+function deleteEmployee(request, response) {
+  const employeeList = readEmployees();
+
+  const employeeId = Number(request.params.id);
+
+  const updatedEmployeeList = employeeList.filter(
+    (employee) => employee.id !== employeeId
+  );
+
+  if (employeeList.length === updatedEmployeeList.length) {
+    return response.status(404).json({
+      message: "Employee not found.",
+    });
+  }
+
+  writeEmployees(updatedEmployeeList);
+
+  response.json({
+    message: "Employee deleted successfully.",
+  });
+}
 
 module.exports = {
   getEmployees,
   addEmployee,
   updateEmployee,
+  deleteEmployee,
 };

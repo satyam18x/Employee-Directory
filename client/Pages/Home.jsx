@@ -5,7 +5,8 @@ import SearchBar from "../components/SearchBar";
 import {
   fetchEmployees,
   addEmployee,
-  updateEmployee
+  updateEmployee,
+  deleteEmployee,
 } from "../services/employeeService";
 
 /**
@@ -32,48 +33,72 @@ function Home() {
  *
  * @param {Object} employeeDetails
  */
-async function handleEmployeeSubmit(employeeDetails) {
-  try {
-    if (selectedEmployee) {
-      await updateEmployee(
-        selectedEmployee.id,
-        employeeDetails
-      );
+  async function handleEmployeeSubmit(employeeDetails) {
+    try {
+      if (selectedEmployee) {
+        await updateEmployee(
+          selectedEmployee.id,
+          employeeDetails
+        );
 
-      setSelectedEmployee(null);
-    } else {
-      await addEmployee(employeeDetails);
+        setSelectedEmployee(null);
+      } else {
+        await addEmployee(employeeDetails);
+      }
+
+      loadEmployees();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * Retrieves employees from the backend.
+   */
+  async function loadEmployees() {
+    try {
+      const employeeData = await fetchEmployees();
+      setEmployeeList(employeeData);
+    } catch (error) {
+      console.error("Unable to load employees.", error);
+    }
+  }
+  useEffect(() => {
+    loadEmployees();
+  }, []);
+
+  /**
+   * Selects an employee for editing.
+   *
+   * @param {Object} employee
+   */
+  function handleEmployeeEdit(employee) {
+    setSelectedEmployee(employee);
+  }
+  async function handleEmployeeDelete(employeeId) {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this employee?"
+    );
+
+    if (!isConfirmed) {
+      return;
     }
 
-    loadEmployees();
-  } catch (error) {
-    console.error(error);
-  }
-}
+    try {
+      await deleteEmployee(employeeId);
 
-/**
- * Retrieves employees from the backend.
- */
-async function loadEmployees() {
-  try {
-    const employeeData = await fetchEmployees();
-    setEmployeeList(employeeData);
-  } catch (error) {
-    console.error("Unable to load employees.", error);
-  }
-}
-useEffect(() => {
-  loadEmployees();
-}, []);
+      if (
+        selectedEmployee &&
+        selectedEmployee.id === employeeId
+      ) {
+        setSelectedEmployee(null);
+      }
 
-/**
- * Selects an employee for editing.
- *
- * @param {Object} employee
- */
-function handleEmployeeEdit(employee) {
-  setSelectedEmployee(employee);
-}
+      loadEmployees();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const filteredEmployeeList = employeeList.filter((employee) =>
     employee.name.toLowerCase().includes(searchKeyword.toLowerCase())
@@ -85,20 +110,20 @@ function handleEmployeeEdit(employee) {
         Employee Directory
       </h1>
 
-   <EmployeeForm
-    handleEmployeeSubmit={handleEmployeeSubmit}
-    selectedEmployee={selectedEmployee}
-/>
+      <EmployeeForm
+        handleEmployeeSubmit={handleEmployeeSubmit}
+        selectedEmployee={selectedEmployee}
+      />
 
       <SearchBar
         searchKeyword={searchKeyword}
         handleSearchChange={handleSearchChange}
       />
-
       <EmployeeList
-    employeeList={filteredEmployeeList}
-    handleEmployeeEdit={handleEmployeeEdit}
-/>
+        employeeList={filteredEmployeeList}
+        handleEmployeeEdit={handleEmployeeEdit}
+        handleEmployeeDelete={handleEmployeeDelete}
+      />
     </div>
   );
 }

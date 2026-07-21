@@ -38,3 +38,16 @@ export async function updateEmployee(employeeId, employeeDetails) {
 
   return response.data;
 }
+/**
+ * Deletes an employee.
+ *
+ * @param {number} employeeId
+ * @returns {Promise<Object>}
+ */
+export async function deleteEmployee(employeeId) {
+  const response = await axios.delete(
+    `${BASE_URL}/${employeeId}`
+  );
+
+  return response.data;
+}

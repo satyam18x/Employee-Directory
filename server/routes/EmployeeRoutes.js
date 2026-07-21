@@ -5,6 +5,7 @@ const {
   getEmployees,
   addEmployee,
   updateEmployee,
+  deleteEmployee,
 } = require("../controllers/EmployeeController");
 
 router.get("/", getEmployees);
@@ -12,5 +13,7 @@ router.get("/", getEmployees);
 router.post("/", addEmployee);
 
 router.put("/:id", updateEmployee);
+
+router.delete("/:id", deleteEmployee);
 
 module.exports = router;

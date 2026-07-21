@@ -10,15 +10,17 @@ import EmployeeCard from "./EmployeeCard";
 function EmployeeList({
   employeeList,
   handleEmployeeEdit,
+  handleEmployeeDelete,
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {employeeList.map((employee) => (
-       <EmployeeCard
-    key={employee.id}
-    employee={employee}
-    handleEmployeeEdit={handleEmployeeEdit}
-/>
+        <EmployeeCard
+          key={employee.id}
+          employee={employee}
+          handleEmployeeEdit={handleEmployeeEdit}
+          handleEmployeeDelete={handleEmployeeDelete}
+        />
       ))}
     </div>
   );
