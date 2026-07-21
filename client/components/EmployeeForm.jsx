@@ -34,11 +34,6 @@ function EmployeeForm({
    *
    * @param {Object} event - Form submit event.
    */
- /**
- * Handles form submission.
- *
- * @param {Object} event
- */
 useEffect(() => {
   if (selectedEmployee) {
     setEmployeeDetails(selectedEmployee);
